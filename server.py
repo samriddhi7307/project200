@@ -16,10 +16,12 @@ print("Welcome to the Quize Hub!")
 
 question=[
     "What country has the highest life expectancy? \n a.Australia\n b.Hong Kong\n c.India\n d.China",
-    "How many minutes are in a full week? \n a.10040\n b.12052\n c.10080\n d.70036"
+    "How many minutes are in a full week? \n a.10040\n b.12052\n c.10080\n d.70036",
+    "The Central Rice Research Station is situated in? \n a.Chennai\n b.Cuttak\n c.Bangalore\n d.Quilon",
+    "Patanjali is well known for the compilation of... \n a.Yoga Sutra\n b.Panchatantra\n c.Brahma Sutra\n d.Ayurveda"
 ]
 
-answers=['b','c']
+answers=['b','c','b','a']
 
 def broadcast(message,conn):
     for clients in list_of_clients:
@@ -58,9 +60,10 @@ def clientthread(conn,nickname):
         try:
             message = conn.recv(2048).decode('utf-8')
             if message:
-                if message.lower() == answers:
-                    score +=1
-                    conn.send("Bravo! Your score is {score}\n\n".encode('utf-8'))
+                if message.split(": ")[-1].lower() == answers: 
+                    score += 1 
+                    conn.send(f"Bravo! Your score is {score}\n\n".encode('utf-8'))
+
                 else:
                     conn.send("Incorrect answer! Better Luck next time.\n\n".encode('utf-8'))
                 remove_question(index)
